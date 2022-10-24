@@ -4,8 +4,8 @@ r.connect(
     host: "81.92.192.113",
     port: 28015,
     db: "Revision",
-    user: 
-    password:
+    user: "",
+    password: "",
   },
   function (err, conn) {
     // ...
