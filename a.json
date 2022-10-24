@@ -1,0 +1,55 @@
+{
+  "users": {
+    "<user_uuid>": {
+      "username": "somename",
+      "email": "email@provider.com",
+      "last_date_moddified": "",
+      "date_created": "",
+      "recents": {
+        "notes": [],
+        "flash_cards": []
+        // Gets read out from back to front, and gets each file opened
+        // added to the back. Is shifted left every time
+        // it is over a certain amount
+      },
+      "notes": ["<uuid1>", "<uuid2>"],
+      "access_token": {
+        "token": "<active_access_token>",
+        "ttl": 0
+      }
+    }
+  },
+
+  "credentials": {
+    "<email>": {
+      "password": "<passwd_hash>",
+      "uuid": "<user_uuid>"
+    }
+  },
+
+  // If query-id == owner_id || query_id.in(allowed-users)
+  // /sets/<uuid>
+  "sets": {
+    "<uuid1>": {
+      "owner_uuid": "owner_uuid",
+      "allowed_users": ["user_uuid2"],
+      "name": "name1",
+      "description": "description",
+      "data": [{ "term": "<some_term>", "definition": "<some_def>" }]
+    }
+  },
+  // /notes/<uuid>
+  "notes": {
+    "<uuid1>": {
+      "public": false,
+      "allowed_users": {
+        "<user_uuid2>": { "admin": true },
+        "<user_uuid3>": { "admin": false }
+      },
+      "owner_uuid": "<owner_uuid>",
+      "name": "name1",
+      "content": "content1",
+      "file_type": "raw"
+    }
+  }
+}
