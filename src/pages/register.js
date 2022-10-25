@@ -1,5 +1,9 @@
 import styles from "../styles/auth.module.css";
-import { passwd_check, email_check, uname_check } from "../components/validators";
+import {
+  passwd_check,
+  email_check,
+  uname_check,
+} from "../components/validators";
 import Head from "next/head";
 import { useEffect } from "react";
 
@@ -31,15 +35,14 @@ export default function Register() {
       return;
     }
 
-
     var uname = document.getElementById("uname").value.trim();
 
-		if (!uname_check(uname)) {
-			alert("Invalid username");
-			return;
-		}
-    
-		{
+    if (!uname_check(uname)) {
+      alert("Invalid username");
+      return;
+    }
+
+    {
       var ajax = new XMLHttpRequest();
 
       ajax.onreadystatechange = async () => {

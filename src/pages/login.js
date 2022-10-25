@@ -16,7 +16,6 @@ export default function Login() {
         email
       )
     ) {
-      console.log(email);
       alert("Not a valid email");
       return false;
     }
@@ -43,7 +42,6 @@ export default function Login() {
     ajax.onreadystatechange = async () => {
       if (ajax.readyState == XMLHttpRequest.DONE) {
         if (ajax.responseType == "") {
-          console.log("Empty Response");
           return;
         }
         // TODO: Get a success or a failure from the server and react accordingly
@@ -55,6 +53,9 @@ export default function Login() {
     };
 
     ajax.open("POST", "/api/login");
+    var formObj = {};
+    formData.forEach((value, key) => (formObj[key] = value));
+    var formData = JSON.stringify(formObj);
     ajax.send(formData);
   }
 

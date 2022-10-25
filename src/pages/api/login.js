@@ -1,12 +1,18 @@
 let r = require("../../middleware/db");
-let { hash } = require("../../components/authentication");
-import { Worker as snow } from "../../components/snowflake";
-const flake = new snow();
-// const { Worker } = require('snowflake-uuid');
+let { hash, compare } = require("../../components/authentication");
+import flake from "../../components/snowflake";
 
-export default function LoginAPIRoute(req, res) {
-  let data = JSON.parse(req.body);
-  console.log(hash(data.passwd));
+export default async function LoginAPIRoute(req, res) {
+  // let formData = JSON.parse(req.body);
+  // //check if user exists
+  // console.log(flake.nextId());
+  // console.log(await hash(data.passwd));
+  // console.log(
+  //   await compare(
+  //     data.passwd,
+  //     "$2b$10$NjUpdaaTmh/IeVWCPANDQ.aVHuVt.4YRfSo0zmcoGmYxP8.F4EWXW"
+  //   )
+  // );
 
   if (req.method !== "POST") {
     res.status(405).end();
