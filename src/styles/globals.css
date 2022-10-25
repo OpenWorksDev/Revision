@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 :root {
-    --dark-main: #202124;
+    --dark-main: #0f0f0f;
 }
+
 
 html,
 body {
@@ -8,7 +11,7 @@ body {
     background-color: var(--dark-main);
     padding: 0;
     margin: 0;
-    /* font-family: ; */
+    font-family: Roboto;
 }
 
 a {
