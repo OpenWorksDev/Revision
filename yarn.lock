@@ -229,6 +229,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"password-validator@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "password-validator@npm:5.3.0"
+  checksum: 4ffd5e6aa24cd262a136a5d338cff0396a45d129e688768e66aa19ad2ff536c65be12c1289e26901859ac1a04eff58aa3c49e3f1196dc5790e45c36aa7b66b4b
+  languageName: node
+  linkType: hard
+
 "picocolors@npm:^1.0.0":
   version: 1.0.0
   resolution: "picocolors@npm:1.0.0"
@@ -283,6 +290,7 @@ __metadata:
   dependencies:
     next: ^12.3.1
     next-compose-plugins: ^2.2.1
+    password-validator: ^5.3.0
     react: ^18.2.0
     react-dom: ^18.2.0
     rethinkdb: ^2.4.2

@@ -30,6 +30,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["next", "virtual:721d7b8777e6b0442de1f51d5174462faeeef96979276449872285d47c66fa4fea8e532ff6fff762518eec90306623ef644513c7794772723e52013d649de35a#npm:12.3.1"],\
             ["next-compose-plugins", "npm:2.2.1"],\
+            ["password-validator", "npm:5.3.0"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:721d7b8777e6b0442de1f51d5174462faeeef96979276449872285d47c66fa4fea8e532ff6fff762518eec90306623ef644513c7794772723e52013d649de35a#npm:18.2.0"],\
             ["rethinkdb", "npm:2.4.2"]\
@@ -285,6 +286,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["password-validator", [\
+        ["npm:5.3.0", {\
+          "packageLocation": "./.yarn/cache/password-validator-npm-5.3.0-52d73b8603-4ffd5e6aa2.zip/node_modules/password-validator/",\
+          "packageDependencies": [\
+            ["password-validator", "npm:5.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["picocolors", [\
         ["npm:1.0.0", {\
           "packageLocation": "./.yarn/cache/picocolors-npm-1.0.0-d81e0b1927-a2e8092dd8.zip/node_modules/picocolors/",\
@@ -357,6 +367,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["revision", "workspace:."],\
             ["next", "virtual:721d7b8777e6b0442de1f51d5174462faeeef96979276449872285d47c66fa4fea8e532ff6fff762518eec90306623ef644513c7794772723e52013d649de35a#npm:12.3.1"],\
             ["next-compose-plugins", "npm:2.2.1"],\
+            ["password-validator", "npm:5.3.0"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:721d7b8777e6b0442de1f51d5174462faeeef96979276449872285d47c66fa4fea8e532ff6fff762518eec90306623ef644513c7794772723e52013d649de35a#npm:18.2.0"],\
             ["rethinkdb", "npm:2.4.2"]\
