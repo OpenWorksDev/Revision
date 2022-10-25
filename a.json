@@ -3,9 +3,9 @@
     "<user_uuid>": {
       "username": "somename",
       "email": "email@provider.com",
-      "last_date_moddified": "",
+      "last_date_modified": "",
       "date_created": "",
-      "recents": {
+      "recent": {
         "notes": [],
         "flash_cards": []
         // Gets read out from back to front, and gets each file opened
