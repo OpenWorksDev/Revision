@@ -1,5 +1,5 @@
 import styles from "../styles/auth.module.css";
-import { passwd_check, email_check } from "../components/validators";
+import { passwd_check, email_check, uname_check } from "../components/validators";
 import Head from "next/head";
 import { useEffect } from "react";
 
@@ -9,6 +9,8 @@ export default function Register() {
      * Verifies entered email and password
      * @returns boolean True if all are valid
      */
+
+    // TODO: Better alerts and messages
 
     var email = document.getElementById("email").value.trim();
     var email_valid = email_check(email);
@@ -29,9 +31,15 @@ export default function Register() {
       return;
     }
 
-    // TODO: Better alerts and messages
-    {
-      var uname = document.getElementById("uname").value.trim();
+
+    var uname = document.getElementById("uname").value.trim();
+
+		if (!uname_check(uname)) {
+			alert("Invalid username");
+			return;
+		}
+    
+		{
       var ajax = new XMLHttpRequest();
 
       ajax.onreadystatechange = async () => {

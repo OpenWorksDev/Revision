@@ -28,8 +28,7 @@ function passwd_check(passwd: string): string | undefined {
 }
 
 function uname_check(uname: string): boolean {
-  if (/^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/.test(uname)) return false;
-  return true;
+  return /^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/.test(uname)
 }
 
 export { email_check, passwd_check, uname_check };
