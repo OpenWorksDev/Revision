@@ -4,6 +4,7 @@
 
 html,
 body {
+    color: white;
     background-color: var(--dark-main);
     padding: 0;
     margin: 0;

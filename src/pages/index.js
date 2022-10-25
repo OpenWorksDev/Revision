@@ -1,5 +1,12 @@
-function HomePage() {
-  return <div>Welcome to Next.js!</div>;
-}
+import Head from "next/head";
 
-export default HomePage;
+export default function HomePage() {
+  return (
+    <div>
+      <Head>
+        <title>CGRevision</title>
+      </Head>
+      <div>Welcome to Next.js!</div>
+    </div>
+  );
+}

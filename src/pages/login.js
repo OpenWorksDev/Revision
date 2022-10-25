@@ -16,9 +16,7 @@ export default function Login() {
         email
       )
     ) {
-      console.log(
-        email
-      );
+      console.log(email);
       alert("Not a valid email");
       return false;
     }
@@ -53,10 +51,10 @@ export default function Login() {
   }
 
   useEffect(() => {
-    document.addEventListener("keyup", event => {
+    document.addEventListener("keyup", (event) => {
       if (event.key == "Enter") login();
-    })
-  })
+    });
+  });
 
   return (
     <div className={styles["login-page"]}>
@@ -84,7 +82,11 @@ export default function Login() {
               className={styles["text-input"]}
             />
           </form>
-          <button className={styles["btn-submit"]} id="btnLogin" onClick={login}>
+          <button
+            className={styles["btn-submit"]}
+            id="btnLogin"
+            onClick={login}
+          >
             LOGIN
           </button>
         </div>
