@@ -21,7 +21,11 @@ export default function Login() {
       return false;
     }
 
-    // TODO: Impliment proper password validation
+    if (passwd.length == 0) {
+      alert("Please enter a password");
+      return false;
+    }
+
     return true;
   }
 
@@ -38,10 +42,14 @@ export default function Login() {
 
     ajax.onreadystatechange = async () => {
       if (ajax.readyState == XMLHttpRequest.DONE) {
-        var response = JSON.parse(ajax.responseText);
+        if (ajax.responseType == "") {
+          console.log("Empty Response");
+          return;
+        }
         // TODO: Get a success or a failure from the server and react accordingly
         // If it is a success make sure all cookies are correctly set and redirect to home page
 
+        var response = JSON.parse(ajax.responseText);
         // window.location.replace(`/`);
       }
     };
