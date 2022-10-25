@@ -17,7 +17,7 @@
 
 .sub-wrapper {
   width: fit-content;
-  padding-inline: 6vw;
+  padding-inline: 10vw;
   text-align: left;
 }
 
@@ -30,21 +30,21 @@
 
 .text-input {
   color: white;
-  min-width: 14vw;
+  min-width: fit-content;
+  width: 12vw;
   margin: 0px;
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 4px;
   text-decoration: none;
   background-color: transparent;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 2px solid white;
+  border: none;
+  /* border-bottom: 2px solid white; */
+  box-shadow: 0px 2px white;
   outline: none;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
-  -khtml-user-select: none; 
+  -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
@@ -62,5 +62,23 @@
 }
 
 .btn-submit:hover {
-	box-shadow: 0 0 0 1px aquamarine, inset 0 0 0 1px #fff;
+  box-shadow: 0 0 0 1px aquamarine, inset 0 0 0 1px #fff;
+}
+
+.break-div {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+@media only screen and (max-width: 1080px) {
+  .sub-wrapper {
+    padding-inline: 6vw;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .sub-wrapper {
+    width: fit-content;
+    padding-inline: 0px;
+  }
 }
