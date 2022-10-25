@@ -1,0 +1,66 @@
+.login-page {
+  margin: 0px;
+  padding: 0px;
+}
+
+.main-wrapper {
+  width: fit-content;
+  text-align: center;
+  background-color: #2c3333;
+  border-radius: 10px;
+  margin: 0;
+  margin-top: 4%;
+  margin-inline: auto;
+  padding: 20px;
+  padding-inline: 60px;
+}
+
+.sub-wrapper {
+  width: fit-content;
+  padding-inline: 6vw;
+  text-align: left;
+}
+
+.title {
+  color: white;
+  margin: 0px;
+  padding: 0px;
+  padding-bottom: 25px;
+}
+
+.text-input {
+  color: white;
+  min-width: 14vw;
+  margin: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 4px;
+  text-decoration: none;
+  background-color: transparent;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid white;
+  outline: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none; 
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.btn-submit {
+  color: white;
+  margin: 0px;
+  margin-top: 20px;
+  padding: 10px;
+  padding-inline: 14px;
+  background-color: #4b8673;
+  border: none;
+  border-radius: 10px;
+}
+
+.btn-submit:hover {
+	box-shadow: 0 0 0 1px aquamarine, inset 0 0 0 1px #fff;
+}
