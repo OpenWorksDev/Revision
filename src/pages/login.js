@@ -1,6 +1,6 @@
 import styles from "../styles/login.module.css";
+import Head from "next/head";
 import { useEffect } from "react";
-import { passwordValidator } from "password-validator";
 
 export default function Login() {
   function verifyValues() {
@@ -60,6 +60,9 @@ export default function Login() {
 
   return (
     <div className={styles["login-page"]}>
+      <Head>
+        <title>Login</title>
+      </Head>
       <div className={styles["main-wrapper"]}>
         <div className={styles["sub-wrapper"]}>
           <h1 className={styles["title"]}>Login</h1>
