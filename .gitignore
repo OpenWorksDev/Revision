@@ -15,5 +15,5 @@ yarn.lock
 #.pnp.*
 
 .next/
-
+/out
 .VSCodeCounter/

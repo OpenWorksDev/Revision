@@ -8,7 +8,7 @@ import Head from "next/head";
 import { useEffect } from "react";
 
 export default function Register() {
-  async function verifyValues() {
+  function verifyValues() {
     /**
      * Verifies entered email and password
      * @returns boolean True if all are valid
@@ -19,9 +19,8 @@ export default function Register() {
     var email = document.getElementById("email").value.trim();
     var email_valid = email_check(email);
     if (!email_valid) {
-      console.log(email_valid);
       alert("Please enter a valid email");
-      return;
+      return false;
     }
 
     var passwd = document.getElementById("passwd").value.trim();
@@ -32,36 +31,21 @@ export default function Register() {
     }
     if (!(passwd == document.getElementById("re-passwd").value.trim())) {
       alert("Passwords do not match");
-      return;
+      return false;
     }
 
     var uname = document.getElementById("uname").value.trim();
 
     if (!uname_check(uname)) {
       alert("Invalid username");
-      return;
+      return false;
     }
 
-    {
-      var ajax = new XMLHttpRequest();
-
-      ajax.onreadystatechange = async () => {
-        if (ajax.readyState == XMLHttpRequest.DONE) {
-          var uname_validation = JSON.parse(ajax.responseText);
-          if (!uname_validation["valid"]) {
-            alert("Username is already in use");
-            return;
-          }
-          register();
-        }
-      };
-
-      ajax.open("GET", `/api/validation/${uname}`);
-      ajax.send();
-    }
+    return true;
   }
 
   function register() {
+    if (!verifyValues()) return;
     /// Triggered on login button click
 
     var formData = new FormData();
@@ -74,15 +58,21 @@ export default function Register() {
 
     ajax.onreadystatechange = async () => {
       if (ajax.readyState == XMLHttpRequest.DONE) {
-        if (ajax.responseType == "") {
-          console.log("Empty Response");
-          return;
-        }
+        // if (ajax.responseType == "") {
+        //   console.log("Empty Response");
+        //   return;
+        // }
         // TODO: Get a success or a failure from the server and react accordingly
         // If it is a success make sure all cookies are correctly set and redirect to home page
 
-        var response = JSON.parse(ajax.responseText);
-        // window.location.replace(`/`);
+        try {
+          console.log(ajax.responseText);
+          var response = JSON.parse(ajax.responseText);
+          console.log(response);
+          if (response.msg == "success") window.location.replace(`/`);
+        } catch (e) {
+          console.log(e);
+        }
       }
     };
 
@@ -146,7 +136,7 @@ export default function Register() {
           <button
             className={styles["btn-submit"]}
             id="btnLogin"
-            onClick={verifyValues}
+            onClick={register}
           >
             REGISTER
           </button>
