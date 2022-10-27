@@ -1,4 +1,7 @@
 .yarn/
+yarn.lock
+.pnp.cjs
+.pnp.loader.cjs
 .yarnrc.yml
 !.yarn/patches
 !.yarn/plugins
