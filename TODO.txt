@@ -1,3 +1,10 @@
+----------- tomorrow -----------
+Verification api/mail
+
+When user is registered redirect to /login#verify
+Show verify instructions on the login page
+-------------------------------
+
 Add rate limiting on IP addrs
 
 Add validation system to check whether user is a valid user
@@ -8,7 +15,6 @@ Every few hours scan the database for unvalidated users from
 over a certain time period ago to delete them from the database
 to help maintain database size and bot attacks
 
-When user is registered redirect to /login#verify
-Show verify instructions pog
+
 
 Come up with a very pog name for this project
