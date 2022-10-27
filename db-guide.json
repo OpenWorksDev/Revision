@@ -1,8 +1,0 @@
-{
-  "creds": {
-    "<username>": {
-      "uuid": "<uuid>",
-      "passwd-hash": "some_hash"
-    }
-  }
-}
