@@ -1,13 +1,14 @@
 {
-  "users": {
-    "<user_uuid>": {
+  "users": [
+    {
+      "id": "<user_uuid>",
       "username": "somename",
       "email": "email@provider.com",
       "last_date_modified": "",
       "date_created": "",
       "recent": {
         "notes": [],
-        "flash_cards": []
+        "sets": []
         // Gets read out from back to front, and gets each file opened
         // added to the back. Is shifted left every time
         // it is over a certain amount
@@ -18,38 +19,40 @@
         "ttl": 0
       }
     }
-  },
+  ],
 
-  "credentials": {
-    "<email>": {
-      "password": "<passwd_hash>",
-      "uuid": "<user_uuid>"
+  "credentials": [
+    {
+      "uuid": "<user_uuid>",
+      "email": "<email>",
+      "password": "<passwd_hash>"
     }
-  },
+  ],
 
   // If query-id == owner_id || query_id.in(allowed-users)
-  // /sets/<uuid>
-  "sets": {
-    "<uuid1>": {
-      "owner_uuid": "owner_uuid",
-      "allowed_users": ["user_uuid2"],
+  "sets": [
+    {
+      "id": "<set_uuid>",
+      "owner": "<owner_uuid>",
+      "allowed_users": ["<user_uuid>"],
+      "public": false,
       "name": "name1",
       "description": "description",
       "data": [{ "term": "<some_term>", "definition": "<some_def>" }]
     }
-  },
-  // /notes/<uuid>
-  "notes": {
-    "<uuid1>": {
+  ],
+  "notes": [
+    {
+      "id": "<note_uuid>",
+      "owner": "<owner_uuid>",
+      "allowed_users": [
+        { "id": "<user_uuid>", "admin": true },
+        { "id": "<user_uuid>", "admin": false }
+      ],
       "public": false,
-      "allowed_users": {
-        "<user_uuid2>": { "admin": true },
-        "<user_uuid3>": { "admin": false }
-      },
-      "owner_uuid": "<owner_uuid>",
       "name": "name1",
       "content": "content1",
       "file_type": "raw"
     }
-  }
+  ]
 }

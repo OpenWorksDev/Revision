@@ -87,6 +87,9 @@ export default function Register() {
     };
 
     ajax.open("POST", "/api/register");
+    var formObj = {};
+    formData.forEach((value, key) => (formObj[key] = value));
+    var formData = JSON.stringify(formObj);
     ajax.send(formData);
   }
 
