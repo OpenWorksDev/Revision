@@ -25,7 +25,8 @@
     {
       "uuid": "<user_uuid>",
       "email": "<email>",
-      "password": "<passwd_hash>"
+      "password": "<passwd_hash>",
+      "verified": false
     }
   ],
 
