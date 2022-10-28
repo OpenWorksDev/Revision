@@ -11,7 +11,7 @@ class ValidationError extends Error {
   }
 }
 
-export default async function UnameCheck(req, res) {
+export default async function registerAPIRoute(req, res) {
   const processItemExists = (itemExists) => {
     /**
      * If email or uname exist in the database this function is to be called
@@ -127,8 +127,6 @@ export default async function UnameCheck(req, res) {
 
           await c.next(manageNext);
         });
-
-      // r.table("users").insert(u).run(conn);
     });
   } catch (err) {
     if (err instanceof ValidationError) {
