@@ -6,28 +6,30 @@ export default async function LoginAPIRoute(req, res) {
   r.connect(creds, (err, conn) => {
     r.table("credentials")
       .filter((c) => {
-        return user("username").eq(data.email).or(user("email").eq(data.email));
+        return c("email").eq(data.email);
       })
       .run(conn, async (err, c) => {
-        c.next();
-        function manageNext(err, result) {
+        async function manageNext(err, result) {
+          console.log(data);
           if (err) {
             if (
               err.name === "ReqlDriverError" &&
               err.message === "No more rows in the cursor."
             ) {
               //TODO: return error if user doesn't exist
+              res.status(200).send({ msg: "failure", reason: "email" });
             } else throw err;
+          }
+          // Checks if the given password matches the password hash of the user (REDO MY DOCUMENTATION PLEASE)
+          let passwordValid = compare(data.password, result.password);
 
-            // Checks if the form password is the same as the db password
-            if (compare(data.password, result.password)) {
-              return processUserValid(); //TODO: write access token cookie and redirect
-            }
+          if (passwordValid) {
+            return processUserValid(); //TODO: write access token cookie and redirect
+          } else {
+            res.status(200).send({ msg: "failure", reason: "password" });
           }
         }
-        await c.next(manageNext);
+        c.next(manageNext);
       });
-    //do things.. then
-    conn.close();
   });
 }

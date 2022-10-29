@@ -44,6 +44,7 @@ export default async function registerAPIRoute(req, res) {
     id: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
+    verified: false,
   });
   let snowflake = userFlake.generate().toString();
 
@@ -58,6 +59,7 @@ export default async function registerAPIRoute(req, res) {
     id: snowflake,
     email: data.email,
     password: await hash(data.passwd),
+    verified: false,
   };
 
   try {

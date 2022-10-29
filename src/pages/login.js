@@ -35,7 +35,7 @@ export default function Login() {
     var formData = new FormData();
 
     formData.set("email", document.getElementById("email").value.trim());
-    formData.set("passwd", document.getElementById("passwd").value.trim());
+    formData.set("password", document.getElementById("passwd").value.trim());
 
     var ajax = new XMLHttpRequest();
 
