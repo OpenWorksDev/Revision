@@ -1,5 +1,7 @@
 ----------- tomorrow -----------
 Verification api/mail
+- use access token field as verification token on register, then generate new token and set "verified": true
+- 
 
 When user is registered redirect to /login#verify
 Show verify instructions on the login page
