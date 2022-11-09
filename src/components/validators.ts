@@ -16,19 +16,22 @@ function passwd_check(passwd: string): string | undefined {
    * @param string The password to check
    * @returns string -	reason for failure null if success
    */
-  if (passwd.length < 8) return "Password is shorter than 8 characters";
+  if (passwd.length < 8) return "Password must be atleast 8 characters long";
 
   if (/^(?=.*[0-9])$/.test(passwd))
-    return "Password does not contain any numbers";
+    return "Password requires atleast one number";
 
   if (/^(?=.*[!@#$%^&*])$/.test(passwd))
-    return "Password does not contain any special characters";
+    return "Password requires atleast one special character";
 
   return;
 }
 
 function uname_check(uname: string): boolean {
-  return /^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/.test(uname)
+  // string | undefined
+  // if (uname.length < 6) return "Username must be atleast 6 characters long";
+  // if (uname.length > 20) return "Username cannot be longer than 20 characters";
+  return /^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/.test(uname);
 }
 
 export { email_check, passwd_check, uname_check };

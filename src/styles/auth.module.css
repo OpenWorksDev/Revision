@@ -8,7 +8,7 @@
   text-align: center;
   border-radius: 10px;
   margin: 0;
-  margin-top: 4%;
+  margin-top: 10vh;
   margin-inline: auto;
   padding: 20px;
   padding-inline: 60px;
@@ -49,7 +49,7 @@
   user-select: none;
 }
 
-.btn-submit {
+.text-input, .btn-submit {
   color: white;
   margin: 0px;
   margin-top: 20px;
@@ -65,18 +65,28 @@
   background-color: #3b3b3b;
 }
 
+.field-alert {
+  position: absolute;
+  margin: 0;
+  font-size: 12px;
+  color: #e5445d;
+  opacity: 0;
+  -webkit-transition: opacity .5s ease-in-out;
+  -moz-transition: opacity .5s ease-in-out;
+  -ms-transition: opacity .5s ease-in-out;
+  -o-transition: opacity .5s ease-in-out;
+  transition: opacity .5s ease-in-out;
+}
+
 .break-div {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-@media only screen and (max-width: 1080px) {
-  .sub-wrapper {
-    padding-inline: 6vw;
-  }
-}
 
 @media only screen and (max-width: 450px) {
+
+
   .sub-wrapper {
     width: fit-content;
     padding-inline: 0px;
