@@ -1,8 +1,8 @@
-let { hash, compare } = require("../../components/authentication");
+let { hash, compare } = require("../../../components/authentication");
 import { serialize } from "cookie";
-import { userFlake, setFlake } from "../../components/snowflake";
+import { userFlake, setFlake } from "../../../components/snowflake";
 const Joi = require("joi");
-let { creds, r } = require("../../../lib/db");
+let { creds, r } = require("../../../../lib/db");
 
 class ValidationError extends Error {
   constructor(msg) {

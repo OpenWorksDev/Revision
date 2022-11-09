@@ -8,40 +8,72 @@ import Head from "next/head";
 import { useEffect } from "react";
 
 export default function Register() {
+  function aAlert(field, alert) {
+    var a = document.querySelector(`[data-alert="${field}"]`);
+    a.style.opacity = 0;
+    a.innerHTML = "* " + alert;
+    a.style.opacity = 100;
+    console.log(a, field, alert);
+  }
+  function aClear(field, alert) {
+    var a = document.querySelector(`[data-alert="${field}"]`);
+    a.style.opacity = 0;
+    console.log(a, field, alert);
+  }
+  function verifyEmail() {
+    var email = document.getElementById("email").value.trim();
+    var email_valid = email_check(email);
+    if (!email_valid) {
+      aAlert("email", "Please enter a valid email");
+      return false;
+    }
+    aClear("email");
+    return true;
+  }
+  function verifyUsername() {
+    if (!uname_check(document.getElementById("uname").value.trim())) {
+      aAlert("uname", "Invalid username");
+      return false;
+    }
+    aClear("uname");
+    return true;
+  }
+  function verifyPassword() {
+    var passwd_valid = passwd_check(
+      document.getElementById("passwd").value.trim()
+    );
+    if (!(passwd_valid == null)) {
+      aAlert("passwd", passwd_valid);
+      return false;
+    }
+    aClear("passwd");
+    return true;
+  }
+  function verifyRePassword() {
+    if (
+      !(
+        document.getElementById("passwd").value.trim() ==
+        document.getElementById("re-passwd").value.trim()
+      )
+    ) {
+      aAlert("re-passwd", "Passwords do not match");
+      return false;
+    }
+    aClear("re-passwd");
+    return true;
+  }
   function verifyValues() {
     /**
      * Verifies entered email and password
      * @returns boolean True if all are valid
      */
+    let valid = true;
+    if (!verifyEmail()) valid = false;
+    if (!verifyUsername()) valid = false;
+    if (!verifyPassword()) valid = false;
+    if (!verifyRePassword()) valid = false;
 
-    // TODO: Better alerts and messages
-
-    var email = document.getElementById("email").value.trim();
-    var email_valid = email_check(email);
-    if (!email_valid) {
-      alert("Please enter a valid email");
-      return false;
-    }
-
-    var passwd = document.getElementById("passwd").value.trim();
-    var passwd_valid = passwd_check(passwd);
-    if (!(passwd_valid == null)) {
-      alert(passwd_valid);
-      return;
-    }
-    if (!(passwd == document.getElementById("re-passwd").value.trim())) {
-      alert("Passwords do not match");
-      return false;
-    }
-
-    var uname = document.getElementById("uname").value.trim();
-
-    if (!uname_check(uname)) {
-      alert("Invalid username");
-      return false;
-    }
-
-    return true;
+    return valid;
   }
 
   function register() {
@@ -76,7 +108,7 @@ export default function Register() {
       }
     };
 
-    ajax.open("POST", "/api/register");
+    ajax.open("POST", "/api/auth/register");
     var formObj = {};
     formData.forEach((value, key) => (formObj[key] = value));
     var formData = JSON.stringify(formObj);
@@ -87,6 +119,16 @@ export default function Register() {
     document.addEventListener("keyup", (event) => {
       if (event.key == "Enter") login();
     });
+    let formFields = document.querySelectorAll("[data-form]");
+    for (let form of formFields) {
+      form.addEventListener("change", (event) => {
+        let n = event.target.name;
+        if (n == "email") verifyEmail();
+        if (n == "uname") verifyUsername();
+        if (n == "passwd") verifyPassword();
+        if (n == "re-passwd") verifyRePassword();
+      });
+    }
   });
 
   return (
@@ -99,23 +141,27 @@ export default function Register() {
           <h1 className={styles["title"]}>Register</h1>
           <form>
             <input
+              data-form
               type="email"
               id="email"
               name="email"
               placeholder="email"
               className={styles["text-input"]}
             />
+            <p data-alert="email" class={styles["field-alert"]}></p>
             <br />
             <input
+              data-form
               type="text"
               id="uname"
               name="uname"
               placeholder="user name"
               className={styles["text-input"]}
             />
+            <p data-alert="uname" class={styles["field-alert"]}></p>
             <br />
-            <div className={styles["break-div"]} />
             <input
+              data-form
               type="password"
               id="passwd"
               name="passwd"
@@ -123,8 +169,10 @@ export default function Register() {
               placeholder="password"
               className={styles["text-input"]}
             />
+            <p data-alert="passwd" class={styles["field-alert"]}></p>
             <br />
             <input
+              data-form
               type="password"
               id="re-passwd"
               name="re-passwd"
@@ -132,6 +180,7 @@ export default function Register() {
               placeholder="re-enter password"
               className={styles["text-input"]}
             />
+            <p data-alert="re-passwd" class={styles["field-alert"]}></p>
           </form>
           <button
             className={styles["btn-submit"]}

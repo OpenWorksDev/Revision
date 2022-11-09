@@ -1,5 +1,5 @@
-import { hash, compare } from "../../components/authentication";
-let { creds, r } = require("../../../lib/db");
+import { hash, compare } from "../../../components/authentication";
+let { creds, r } = require("../../../../lib/db");
 export default async function LoginAPIRoute(req, res) {
   const Joi = require("joi");
   let data = JSON.parse(req.body);

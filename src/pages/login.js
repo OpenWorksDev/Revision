@@ -51,7 +51,7 @@ export default function Login() {
         // window.location.replace(`/`);
       }
     };
-    ajax.open("POST", "/api/login");
+    ajax.open("POST", "/api/auth/login");
     var formObj = {};
     formData.forEach((value, key) => (formObj[key] = value));
     var formData = JSON.stringify(formObj);
