@@ -1,21 +1,4 @@
-var mail = require("nodemailer");
-var transporter = mail.createTransport({
-  host: "109.237.212.180",
-  auth: {
-    user: "revision@verycrunchy.dev",
-    pass: "?veryGrey!mail",
-  },
-  tls: { rejectUnauthorized: false },
-});
-
-class MailFailed extends Error {
-  constructor(msg) {
-    super(msg);
-    this.name = "MailFailed";
-  }
-}
-
-let html = `<!DOCTYPE html>
+<!DOCTYPE html>
 
 <head>
     <meta charset="utf-8">
@@ -251,33 +234,4 @@ let html = `<!DOCTYPE html>
     </table>
 </body>
 
-</html>`;
-
-const sendMessage = async (reciever, subject, text) => {
-  var mailOptions = {
-    from: "revision@verycrunchy.dev",
-    to: reciever,
-    subject: subject || "Verify Your Email",
-    // text: text,
-    html: html,
-  };
-
-  await transporter.sendMail(mailOptions, (error, info) => {
-    // TODO: :}
-    if (error) {
-      console.log(e);
-      throw new MailFailed(error.message);
-    }
-
-    return "MailSuccess";
-  });
-};
-
-try {
-  sendMessage("verycrunchydev@gmail.com", null, null);
-} catch (e) {
-  console.log(e);
-  if (e.name == "MailFailed") {
-    // Do something else
-  }
-}
+</html>

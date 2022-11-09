@@ -53,6 +53,7 @@ export default async function registerAPIRoute(req, res) {
     username: data.uname,
     email: data.email,
     date_created: Date.now(),
+    verified: false,
   };
 
   let cred = {
