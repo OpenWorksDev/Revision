@@ -60,7 +60,6 @@ export default async function registerAPIRoute(req, res) {
     id: snowflake,
     email: data.email,
     password: await hash(data.passwd),
-    verified: false,
   };
 
   try {
