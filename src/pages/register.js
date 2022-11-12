@@ -8,7 +8,7 @@ import Head from "next/head";
 import { useEffect } from "react";
 
 export default function Register() {
-  function aAlert(field, alert, func) {
+  function aAlert(field, alert) {
     alert = "* " + alert;
     var a = document.querySelector(`[data-alert="${field}"]`);
     if (a.dataset.current_alert == alert) return;
@@ -25,8 +25,6 @@ export default function Register() {
     var a = document.querySelector(`[data-alert="${field}"]`);
     a.style.opacity = 0;
     a.dataset.current_alert = "null";
-
-    //TODO: add transitions
   }
   function verifyEmail() {
     var email_valid = email_check(
@@ -39,8 +37,11 @@ export default function Register() {
     aClear("email");
     return true;
   }
-  function verifyUsername() {
-    var uname_valid = uname_check(document.getElementById("uname").value);
+  function verifyUsername(onButtonPress) {
+    var uname_valid = uname_check(
+      document.getElementById("uname").value,
+      onButtonPress
+    );
     if (uname_valid != undefined) {
       aAlert("uname", uname_valid, verifyUsername);
       return false;
@@ -48,8 +49,11 @@ export default function Register() {
     aClear("uname");
     return true;
   }
-  function verifyPassword() {
-    var passwd_valid = passwd_check(document.getElementById("passwd").value);
+  function verifyPassword(onButtonPress) {
+    var passwd_valid = passwd_check(
+      document.getElementById("passwd").value,
+      onButtonPress
+    );
     if (passwd_valid !== undefined) {
       aAlert("passwd", passwd_valid, verifyPassword);
       return false;
@@ -70,22 +74,23 @@ export default function Register() {
     aClear("re-passwd");
     return true;
   }
-  function verifyValues() {
+  function verifyValues(onButtonPress) {
     /**
      * Verifies entered email and password
      * @returns boolean True if all are valid
      */
     let valid = true;
-    if (!verifyEmail()) valid = false;
-    if (!verifyUsername()) valid = false;
-    if (!verifyPassword()) valid = false;
+    console.log(onButtonPress);
+    if (verifyEmail()) valid = false;
+    if (!verifyUsername(onButtonPress)) valid = false;
+    if (!verifyPassword(onButtonPress)) valid = false;
     if (!verifyRePassword()) valid = false;
 
     return valid;
   }
 
   function register() {
-    if (!verifyValues()) return;
+    if (!verifyValues(true)) return;
     /// Triggered on login button click
 
     var formData = new FormData();
@@ -127,12 +132,16 @@ export default function Register() {
     // document.addEventListener("keyup", (event) => {
     //   if (event.key == "Enter") login();
     // });
+    const emailForm = document.getElementById("email");
+    emailForm.addEventListener("focusout", (event) => {
+      if (emailForm.value == "") return aClear("email");
 
+      verifyEmail();
+    });
     document.addEventListener("input", (event) => {
       let n = event.target.name;
       let f = document.getElementById(n);
       if (f.value == "") return aClear(n);
-      if (n == "email") verifyEmail();
       if (n == "uname") verifyUsername();
       if (n == "passwd") verifyPassword();
       if (n == "re-passwd") verifyRePassword();
@@ -165,7 +174,7 @@ export default function Register() {
               id="uname"
               name="uname"
               autoComplete="off"
-              placeholder="user name"
+              placeholder="username"
               className={styles["text-input"]}
             />
             <p data-alert="uname" className={styles["field-alert"]}></p>
