@@ -1,11 +1,12 @@
 import Head from "next/head";
+import MainLayout from "../components/layout";
+
 export default function HomePage() {
   return (
-    <div>
+    <MainLayout>
       <Head>
         <title>CGRevision</title>
       </Head>
-      <div>Welcome to Next.js!</div>
-    </div>
+    </MainLayout>
   );
 }
