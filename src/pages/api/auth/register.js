@@ -2,7 +2,7 @@ let { hash, compare } = require("../../../components/authentication");
 import { serialize } from "cookie";
 import { userFlake, setFlake } from "../../../components/snowflake";
 const Joi = require("joi");
-let { creds, r } = require("../../../../lib/db");
+let { credentials, r } = require("../../../../lib/db");
 
 class ValidationError extends Error {
   constructor(msg) {
@@ -25,7 +25,7 @@ export default async function registerAPIRoute(req, res) {
 
   const processUserCreated = () => {
     /**
-     * Called when user is succesfully created
+     * Called when user is successfully created
      *
      * This will return a message to the client to redirect them to the login page
      */
@@ -72,7 +72,7 @@ export default async function registerAPIRoute(req, res) {
     if (credObj == undefined || credObj == null)
       throw new Error("credSchema did not validate successfully");
 
-    await r.connect(creds, (err, conn) => {
+    await r.connect(credentials, (err, conn) => {
       r.table("users")
         .filter((user) => {
           return user("username")

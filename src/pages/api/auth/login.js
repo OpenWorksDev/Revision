@@ -1,11 +1,11 @@
 import { hash, compare } from "../../../components/authentication";
-let { creds, rdb } = require("../../../../lib/db");
+let { credentials, rdb } = require("../../../../lib/db");
 
 export default async function LoginAPIRoute(req, res) {
   const Joi = require("joi");
   let data = JSON.parse(req.body);
 
-  rdb.connect(creds, (err, conn) => {
+  rdb.connect(credentials, (err, conn) => {
     rdb.table("credentials")
       .filter((c) => {
         return c("email").eq(data.email);
