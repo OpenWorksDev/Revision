@@ -1,6 +1,6 @@
 import styles from "../styles/404.module.css";
 
-import MainLayout from "./layout";
+import MainLayout from "../components/layout";
 
 import Head from "next/head";
 import Link from "next/link";
@@ -24,3 +24,4 @@ export default function Error404() {
     </MainLayout>
   );
 }
+
