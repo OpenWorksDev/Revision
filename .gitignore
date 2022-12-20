@@ -17,3 +17,5 @@ yarn.lock
 .next/
 /out
 .VSCodeCounter/
+node_modules
+package-lock.json
