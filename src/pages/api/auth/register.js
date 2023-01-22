@@ -2,7 +2,7 @@ let { hash, compare } = require("../../../components/authentication");
 import { serialize } from "cookie";
 import { userFlake, setFlake } from "../../../components/snowflake";
 const Joi = require("joi");
-let { creds, r } = require("../../../../lib/db");
+let { credentials, r } = require("../../../../lib/db");
 
 class ValidationError extends Error {
   constructor(msg) {
@@ -12,23 +12,23 @@ class ValidationError extends Error {
 }
 
 export default async function registerAPIRoute(req, res) {
+  /**
+   * If email or uname exist in the database this function is to be called
+   *
+   * This function will respond to the client with the item that exists in the database
+   * this will cause the client to report to the user that the item exists and
+   * ask for a new entry of said item.
+   */
   const processItemExists = (itemExists) => {
-    /**
-     * If email or uname exist in the database this function is to be called
-     *
-     * This function will respond to the client with the item that exists in the database
-     * this will cause the client to report to the user that the item exists and
-     * ask for a new entry of said item.
-     */
     res.status(200).send({ msg: "failure", reason: itemExists });
   };
 
+  /**
+   * Called when user is successfully created
+   *
+   * This will return a message to the client to redirect them to the login page
+   */
   const processUserCreated = () => {
-    /**
-     * Called when user is succesfully created
-     *
-     * This will return a message to the client to redirect them to the login page
-     */
     res.status(200).send({ msg: "success" });
   };
 
@@ -72,7 +72,7 @@ export default async function registerAPIRoute(req, res) {
     if (credObj == undefined || credObj == null)
       throw new Error("credSchema did not validate successfully");
 
-    await r.connect(creds, (err, conn) => {
+    await r.connect(credentials, (err, conn) => {
       r.table("users")
         .filter((user) => {
           return user("username")
@@ -80,14 +80,14 @@ export default async function registerAPIRoute(req, res) {
             .or(user("email").eq(userObj.email));
         })
         .run(conn, async (err, c) => {
+          /**
+           * Function to check data points for username and email if they exist
+           *
+           * For each datapoint that exists each is added to a list
+           *
+           * @return list Datapoints that already exist in the database
+           */
           var checkItems = (data) => {
-            /**
-             * Function to check data points for username and email if they exist
-             *
-             * For each datapoint that exists each is added to a list
-             *
-             * @return list Datapoints that already exist in the database
-             */
             var items = [];
 
             if (data.email == userObj.email) {
@@ -100,17 +100,17 @@ export default async function registerAPIRoute(req, res) {
             return items;
           };
 
+          /**
+           * Callback function for cursor next
+           *
+           * This function registers users into the database if they have a
+           * unique username and email address otherwise it calls processItemExists
+           * with the result from checkItems
+           *
+           * @param string Error
+           * @param json Result json of the queried info from the database
+           */
           var manageNext = async (err, result) => {
-            /**
-             * Callback function for cursor next
-             *
-             * This function registers users into the database if they have a
-             * unique username and email address otherwise it calls processItemExists
-             * with the result from checkItems
-             *
-             * @param string Error
-             * @param json Result json of the queried info from the database
-             */
             if (err) {
               if (
                 err.name === "ReqlDriverError" &&
