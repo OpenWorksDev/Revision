@@ -19,3 +19,4 @@ yarn.lock
 .VSCodeCounter/
 node_modules
 package-lock.json
+.env
