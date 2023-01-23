@@ -2,7 +2,7 @@ let { hash, compare } = require("../../../components/authentication");
 import { serialize } from "cookie";
 import { userFlake, setFlake } from "../../../components/snowflake";
 const Joi = require("joi");
-let { credentials, r } = require("../../../../lib/db");
+let db = require("../../../../lib/db");
 
 class ValidationError extends Error {
   constructor(msg) {
@@ -10,7 +10,6 @@ class ValidationError extends Error {
     this.name = "ValidationFailed";
   }
 }
-
 export default async function registerAPIRoute(req, res) {
   /**
    * If email or uname exist in the database this function is to be called
@@ -76,64 +75,80 @@ export default async function registerAPIRoute(req, res) {
         "credSchema did not validate successfully: " + credObj.error
       );
 
-    await r.connect(credentials, (err, conn) => {
-      r.table("users")
-        .filter((user) => {
-          return user("username")
-            .eq(userObj.username)
-            .or(user("email").eq(userObj.email));
-        })
-        .run(conn, async (err, c) => {
-          /**
-           * Function to check data points for username and email if they exist
-           *
-           * For each datapoint that exists each is added to a list
-           *
-           * @return list Datapoints that already exist in the database
-           */
-          var checkItems = (data) => {
-            var items = [];
+    // I tried...
 
-            if (data.email == userObj.email) {
-              items.push("email");
-            }
-            if (data.username == userObj.username) {
-              items.push("username");
-            }
+    // let conn;
+    // try {
+    //   let result = await db.pool.query(
+    //     {
+    //       namedPlaceholders: true,
+    //       sql: "SELECT EXISTS ( SELECT * FROM users WHERE username = :username OR email = :email)",
+    //     },
+    //     { username: userObj.username, email: userObj.email }
+    //   );
+    //   console.log(result);
+    // } catch (err) {
+    //   console.log(err);
+    // }
 
-            return items;
-          };
+    // await r.connect(credentials, (err, conn) => {
+    //   r.table("users")
+    //     .filter((user) => {
+    //       return user("username")
+    //         .eq(userObj.username)
+    //         .or(user("email").eq(userObj.email));
+    //     })
+    //     .run(conn, async (err, c) => {
+    //       /**
+    //        * Function to check data points for username and email if they exist
+    //        *
+    //        * For each datapoint that exists each is added to a list
+    //        *
+    //        * @return list Datapoints that already exist in the database
+    //        */
+    //       var checkItems = (data) => {
+    //         var items = [];
 
-          /**
-           * Callback function for cursor next
-           *
-           * This function registers users into the database if they have a
-           * unique username and email address otherwise it calls processItemExists
-           * with the result from checkItems
-           *
-           * @param string Error
-           * @param json Result json of the queried info from the database
-           */
-          var manageNext = async (err, result) => {
-            if (err) {
-              if (
-                err.name === "ReqlDriverError" &&
-                err.message === "No more rows in the cursor."
-              ) {
-                console.log("User does not exist. Creating new user.");
-                await r.table("users").insert(userObj).run(conn);
-                await r.table("credentials").insert(credObj).run(conn);
-                conn.close();
-                processUserCreated();
-              } else throw err;
-            } else {
-              processItemExists(checkItems(result));
-            }
-          };
+    //         if (data.email == userObj.email) {
+    //           items.push("email");
+    //         }
+    //         if (data.username == userObj.username) {
+    //           items.push("username");
+    //         }
 
-          await c.next(manageNext);
-        });
-    });
+    //         return items;
+    //       };
+
+    //       /**
+    //        * Callback function for cursor next
+    //        *
+    //        * This function registers users into the database if they have a
+    //        * unique username and email address otherwise it calls processItemExists
+    //        * with the result from checkItems
+    //        *
+    //        * @param string Error
+    //        * @param json Result json of the queried info from the database
+    //        */
+    //       var manageNext = async (err, result) => {
+    //         if (err) {
+    //           if (
+    //             err.name === "ReqlDriverError" &&
+    //             err.message === "No more rows in the cursor."
+    //           ) {
+    //             console.log("User does not exist. Creating new user.");
+    //             await r.table("users").insert(userObj).run(conn);
+    //             await r.table("credentials").insert(credObj).run(conn);
+    //             conn.close();
+    //             processUserCreated();
+    //           } else throw err;
+    //         } else {
+    //           processItemExists(checkItems(result));
+    //         }
+    //       };
+
+    //       await c.next(manageNext);
+    //     });
+    // });
   } catch (err) {
     if (err instanceof ValidationError) {
       console.log("Val Err");

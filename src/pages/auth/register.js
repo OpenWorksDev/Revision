@@ -81,7 +81,6 @@ export default function Register() {
      * @returns boolean True if all are valid
      */
     let valid = true;
-    console.log(onButtonPress);
     if (verifyEmail()) valid = false;
     if (!verifyUsername(onButtonPress)) valid = false;
     if (!verifyPassword(onButtonPress)) valid = false;
