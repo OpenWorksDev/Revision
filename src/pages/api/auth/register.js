@@ -26,7 +26,7 @@ export default async function registerAPIRoute(req, res) {
   /**
    * Called when user is successfully created
    *
-   * This will return a message to the client to redirect them to the login page
+   * This will return a success message to the client to redirect them to the login page
    */
   const processUserCreated = () => {
     res.status(200).send({ msg: "success" });
@@ -34,7 +34,7 @@ export default async function registerAPIRoute(req, res) {
 
   let data = JSON.parse(req.body);
   const userSchema = Joi.object({
-    id: Joi.string().required(),
+    id: Joi.string().alphanum().required(),
     username: Joi.string().required(),
     email: Joi.string().email().required(),
     date_created: Joi.date().timestamp().required(),
@@ -67,10 +67,14 @@ export default async function registerAPIRoute(req, res) {
     const credObj = credSchema.validate(cred).value;
 
     if (userObj == undefined || userObj == null)
-      throw new Error("userSchema did not validate successfully");
+      throw new Error(
+        "userSchema did not validate successfully: " + userObj.error
+      );
 
     if (credObj == undefined || credObj == null)
-      throw new Error("credSchema did not validate successfully");
+      throw new Error(
+        "credSchema did not validate successfully: " + credObj.error
+      );
 
     await r.connect(credentials, (err, conn) => {
       r.table("users")

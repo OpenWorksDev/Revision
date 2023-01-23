@@ -7,6 +7,24 @@
   height: 100vh;
 }
 
+@keyframes main-blur {
+  0% {
+    backdrop-filter: blur(100px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  50% {
+    backdrop-filter: blur(200px);
+    -webkit-backdrop-filter: blur(60px);
+  }
+
+  100% {
+    backdrop-filter: blur(100px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+}
+
 .main-wrapper {
   width: fit-content;
   text-align: center;
@@ -17,15 +35,17 @@
   transform: translateX(-50%);
   padding: 20px;
   padding-inline: 60px;
-  opacity: 100%;
-  background: #171334;
   width: 30vw;
+  background-color: rgba(16 18 27 / 40%);
+
   -webkit-box-shadow: 0px 0px 300px 200px rgba(56, 40, 144, 0.53);
   -moz-box-shadow: 0px 0px 300px 200px rgba(56, 40, 144, 0.53);
   box-shadow: 0px 0px 300px 200px rgba(56, 40, 144, 0.53);
+  animation-name: main-blur;
+  animation-duration: 200s;
+  animation-iteration-count: infinite;
+
 }
-
-
 
 .sub-wrapper {
   width: fit-content;
