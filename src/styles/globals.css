@@ -1,17 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 :root {
-  --dark-main: #0f0f0f;
+  --dark-main: #0c0829;
 }
 
 html,
 body {
+  overflow: auto;
+  min-height: 100%;
   color: white;
   background-color: var(--dark-main);
   padding: 0;
   margin: 0;
   font-family: Roboto;
   font-size: 16px;
+  background: radial-gradient(circle, #241f60 0%, #1b1b4f 20%, var(--dark-main) 100%);
 }
 
 a {
@@ -23,6 +26,14 @@ a {
   margin: 0;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
+}
+
+#__next {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 input:-webkit-autofill,

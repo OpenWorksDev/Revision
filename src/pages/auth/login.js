@@ -65,7 +65,7 @@ export default function Login() {
   });
 
   return (
-    <div className={styles["login-page"]}>
+    <>
       <Head>
         <title>Login</title>
       </Head>
@@ -99,6 +99,7 @@ export default function Login() {
           </button>
         </div>
       </div>
-    </div>
+      <div className={styles["glow"]}></div>
+    </>
   );
 }

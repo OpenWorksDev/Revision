@@ -149,7 +149,7 @@ export default function Register() {
   });
 
   return (
-    <div className={styles["login-page"]}>
+    <>
       <Head>
         <title>Register</title>
       </Head>
@@ -210,6 +210,6 @@ export default function Register() {
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
