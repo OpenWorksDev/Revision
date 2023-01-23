@@ -1,9 +1,9 @@
-import styles from "../styles/auth.module.css";
+import styles from "../../styles/auth.module.css";
 import {
   passwd_check,
   email_check,
   uname_check,
-} from "../components/validators";
+} from "../../components/validators";
 import Head from "next/head";
 import { useEffect } from "react";
 

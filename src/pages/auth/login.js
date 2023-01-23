@@ -1,4 +1,4 @@
-import styles from "../styles/auth.module.css";
+import styles from "../../styles/auth.module.css";
 import Head from "next/head";
 import { useEffect } from "react";
 
