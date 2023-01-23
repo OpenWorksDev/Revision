@@ -1,6 +1,7 @@
 import styles from "../../styles/auth.module.css";
 import Head from "next/head";
 import { useEffect } from "react";
+import Link from "next/link";
 
 export default function Login() {
   function verifyValues() {
@@ -97,6 +98,9 @@ export default function Login() {
           >
             LOGIN
           </button>
+          <Link className="other-method" href="/auth/register">
+            register
+          </Link>
         </div>
       </div>
       <div className={styles["glow"]}></div>

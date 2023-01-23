@@ -1,6 +1,8 @@
------------ tomorrow -----------
-Make auth mobile friendly
--------------------------------
+----------- today -----------
+Transfer auth from rethinkdb to mariadb
+
+Add better validation on register
+-----------------------------
 
 Verification api/mail
 - use access token field as verification token on register, then generate new token and set "verified": true

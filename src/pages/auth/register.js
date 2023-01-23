@@ -6,6 +6,7 @@ import {
 } from "../../components/validators";
 import Head from "next/head";
 import { useEffect } from "react";
+import Link from "next/link";
 
 export default function Register() {
   function aAlert(field, alert) {
@@ -208,6 +209,9 @@ export default function Register() {
           >
             REGISTER
           </button>
+          <Link className="other-method" href="/auth/login">
+            login
+          </Link>
         </div>
       </div>
     </>
