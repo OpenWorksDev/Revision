@@ -23,8 +23,7 @@
 
   "credentials": [
     {
-      "uuid": "<user_uuid>",
-      "email": "<email>",
+      "id": "<user_uuid>",
       "password": "<passwd_hash>",
       "verified": false
     }

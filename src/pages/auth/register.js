@@ -9,20 +9,17 @@ import { useEffect } from "react";
 import Link from "next/link";
 
 export default function Register() {
-  function aAlert(field, alert) {
+  function inlineAlert(field, alert) {
     alert = "* " + alert;
     var a = document.querySelector(`[data-alert="${field}"]`);
     if (a.dataset.current_alert == alert) return;
-    let f = document.getElementById(field);
-
-    let t;
     if (a.dataset.current_alert == "null" || !a.dataset.current_alert)
       a.style.opacity = 100;
     if (a.dataset.current_alert != alert) a.innerHTML = alert;
 
     a.dataset.current_alert = alert;
   }
-  function aClear(field) {
+  function inlineClear(field) {
     var a = document.querySelector(`[data-alert="${field}"]`);
     a.style.opacity = 0;
     a.dataset.current_alert = "null";
@@ -32,22 +29,22 @@ export default function Register() {
       document.getElementById("email").value.trim()
     );
     if (!email_valid) {
-      aAlert("email", "Please enter a valid email", verifyEmail);
+      inlineAlert("email", "Please enter a valid email", verifyEmail);
       return false;
     }
-    aClear("email");
+    inlineClear("email");
     return true;
   }
   function verifyUsername(onButtonPress) {
     var uname_valid = uname_check(
-      document.getElementById("uname").value,
+      document.getElementById("username").value,
       onButtonPress
     );
     if (uname_valid != undefined) {
-      aAlert("uname", uname_valid, verifyUsername);
+      inlineAlert("username", uname_valid, verifyUsername);
       return false;
     }
-    aClear("uname");
+    inlineClear("username");
     return true;
   }
   function verifyPassword(onButtonPress) {
@@ -56,10 +53,10 @@ export default function Register() {
       onButtonPress
     );
     if (passwd_valid !== undefined) {
-      aAlert("passwd", passwd_valid, verifyPassword);
+      inlineAlert("passwd", passwd_valid, verifyPassword);
       return false;
     }
-    aClear("passwd");
+    inlineClear("passwd");
     return true;
   }
   function verifyRePassword() {
@@ -69,10 +66,10 @@ export default function Register() {
         document.getElementById("re-passwd").value
       )
     ) {
-      aAlert("re-passwd", "Passwords do not match", verifyRePassword);
+      inlineAlert("re-passwd", "Passwords do not match", verifyRePassword);
       return false;
     }
-    aClear("re-passwd");
+    inlineClear("re-passwd");
     return true;
   }
   function verifyValues(onButtonPress) {
@@ -81,11 +78,10 @@ export default function Register() {
      * @returns boolean True if all are valid
      */
     let valid = true;
-    if (verifyEmail()) valid = false;
+    if (!verifyEmail()) valid = false;
     if (!verifyUsername(onButtonPress)) valid = false;
     if (!verifyPassword(onButtonPress)) valid = false;
     if (!verifyRePassword()) valid = false;
-
     return valid;
   }
 
@@ -96,7 +92,7 @@ export default function Register() {
     var formData = new FormData();
 
     formData.set("email", document.getElementById("email").value.trim());
-    formData.set("uname", document.getElementById("uname").value.trim());
+    formData.set("username", document.getElementById("username").value.trim());
     formData.set("passwd", document.getElementById("passwd").value.trim());
 
     var ajax = new XMLHttpRequest();
@@ -111,10 +107,19 @@ export default function Register() {
         // If it is a success make sure all cookies are correctly set and redirect to home page
 
         try {
-          console.log(ajax.responseText);
           var response = JSON.parse(ajax.responseText);
-          console.log(response);
           if (response.msg == "success") window.location.replace(`/`);
+          if (response.msg == "exists") {
+            inlineAlert(
+              response.reason[0],
+              `This ${response.reason[0]} is already in use`
+            );
+            if (response.reason[1] != undefined)
+              inlineAlert(
+                response.reason[1],
+                `This ${response.reason[1]} is already in use`
+              );
+          }
         } catch (e) {
           console.log(e);
         }
@@ -134,15 +139,15 @@ export default function Register() {
     // });
     const emailForm = document.getElementById("email");
     emailForm.addEventListener("focusout", (event) => {
-      if (emailForm.value == "") return aClear("email");
+      if (emailForm.value == "") return inlineClear("email");
 
       verifyEmail();
     });
     document.addEventListener("input", (event) => {
       let n = event.target.name;
       let f = document.getElementById(n);
-      if (f.value == "") return aClear(n);
-      if (n == "uname") verifyUsername();
+      if (f.value == "") return inlineClear(n);
+      if (n == "username") verifyUsername();
       if (n == "passwd") verifyPassword();
       if (n == "re-passwd") verifyRePassword();
     });
@@ -171,13 +176,13 @@ export default function Register() {
             <input
               data-form
               type="text"
-              id="uname"
-              name="uname"
+              id="username"
+              name="username"
               autoComplete="off"
               placeholder="username"
               className={styles["text-input"]}
             />
-            <p data-alert="uname" className={styles["field-alert"]}></p>
+            <p data-alert="username" className={styles["field-alert"]}></p>
             <br />
             <input
               data-form

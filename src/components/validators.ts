@@ -46,7 +46,7 @@ function uname_check(
   if (/\s/.test(uname)) return "Username cannot contain spaces";
   if (!/^[A-Za-z0-9\-\_]*$/.test(uname))
     return "Username cannot contain special characters";
-  if (uname.length > 20) return "Username cannot be longer than 20 characters";
+  if (uname.length > 30) return "Username cannot be longer than 30 characters";
   return;
 }
 

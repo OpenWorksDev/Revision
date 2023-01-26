@@ -11,85 +11,73 @@ class ValidationError extends Error {
   }
 }
 export default async function registerAPIRoute(req, res) {
-  /**
-   * If email or uname exist in the database this function is to be called
-   *
-   * This function will respond to the client with the item that exists in the database
-   * this will cause the client to report to the user that the item exists and
-   * ask for a new entry of said item.
-   */
-  const processItemExists = (itemExists) => {
-    res.status(200).send({ msg: "failure", reason: itemExists });
-  };
-
-  /**
-   * Called when user is successfully created
-   *
-   * This will return a success message to the client to redirect them to the login page
-   */
-  const processUserCreated = () => {
-    res.status(200).send({ msg: "success" });
-  };
-
   let data = JSON.parse(req.body);
   const userSchema = Joi.object({
     id: Joi.string().alphanum().required(),
-    username: Joi.string().required(),
+    username: Joi.string().max(30).required(),
     email: Joi.string().email().required(),
-    date_created: Joi.date().timestamp().required(),
   });
 
   const credSchema = Joi.object({
-    id: Joi.string().required(),
-    email: Joi.string().email().required(),
     password: Joi.string().required(),
-    verified: false,
   });
-  let snowflake = userFlake.generate().toString();
-
   let user = {
-    id: snowflake,
-    username: data.uname,
+    id: userFlake.generate().toString(),
     email: data.email,
-    date_created: Date.now(),
-    verified: false,
+    username: data.username,
   };
 
   let cred = {
-    id: snowflake,
-    email: data.email,
     password: await hash(data.passwd),
   };
 
   try {
-    const userObj = userSchema.validate(user).value;
-    const credObj = credSchema.validate(cred).value;
-
-    if (userObj == undefined || userObj == null)
-      throw new Error(
+    const userObj = userSchema.validate(user);
+    const credObj = credSchema.validate(cred);
+    if (userObj.error)
+      throw new ValidationError(
         "userSchema did not validate successfully: " + userObj.error
       );
 
-    if (credObj == undefined || credObj == null)
-      throw new Error(
+    if (credObj.error)
+      throw new ValidationError(
         "credSchema did not validate successfully: " + credObj.error
       );
+    try {
+      let exists = await db.pool.query(
+        "SELECT * FROM users WHERE username = ? OR email = ?",
+        [userObj.value.username, userObj.value.email]
+      );
+      if (exists.length > 0) {
+        console.log(exists);
+        var items = [];
+        var checkItems = (data) => {
+          if (data.email == userObj.value.email) {
+            items.push("email");
+          }
+          if (data.username == userObj.value.username) {
+            items.push("username");
+          }
+        };
 
-    // I tried...
-
-    // let conn;
-    // try {
-    //   let result = await db.pool.query(
-    //     {
-    //       namedPlaceholders: true,
-    //       sql: "SELECT EXISTS ( SELECT * FROM users WHERE username = :username OR email = :email)",
-    //     },
-    //     { username: userObj.username, email: userObj.email }
-    //   );
-    //   console.log(result);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+        checkItems(exists[0]);
+        if (exists[1] !== undefined) checkItems(exists[1]);
+        return res.status(200).send({ msg: "exists", reason: items });
+      }
+      if (exists.length === 0) {
+        db.pool.query(
+          "INSERT INTO users (id, email, username) VALUES (?, ?, ?)",
+          [userObj.value.id, userObj.value.email, userObj.value.username]
+        );
+        db.pool.query("INSERT INTO credentials (id, password) VALUES (?, ?)", [
+          userObj.value.id,
+          credObj.value.password,
+        ]);
+        res.status(200).send({ msg: "success" });
+      }
+    } catch (err) {
+      console.log(err);
+    }
 
     // await r.connect(credentials, (err, conn) => {
     //   r.table("users")
@@ -150,10 +138,10 @@ export default async function registerAPIRoute(req, res) {
     //     });
     // });
   } catch (err) {
+    console.log(err);
     if (err instanceof ValidationError) {
-      console.log("Val Err");
+      res.status(400).send();
     } else {
-      console.log(err);
       res.status(409).send();
     }
   }
