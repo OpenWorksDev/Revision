@@ -7,7 +7,7 @@ import {
 import Head from "next/head";
 import { useEffect } from "react";
 import Link from "next/link";
-
+import router from "next/router";
 export default function Register() {
   function inlineAlert(field, alert) {
     alert = "* " + alert;
@@ -15,13 +15,15 @@ export default function Register() {
     if (a.dataset.current_alert == alert) return;
     if (a.dataset.current_alert == "null" || !a.dataset.current_alert)
       a.style.opacity = 100;
-    if (a.dataset.current_alert != alert) a.innerHTML = alert;
+    a.innerHTML = alert;
 
+    a.previousSibling.style.border = "solid #ff005a 1px";
     a.dataset.current_alert = alert;
   }
   function inlineClear(field) {
     var a = document.querySelector(`[data-alert="${field}"]`);
     a.style.opacity = 0;
+    a.previousElementSibling.style.border = "none";
     a.dataset.current_alert = "null";
   }
   function verifyEmail() {
@@ -93,7 +95,7 @@ export default function Register() {
 
     formData.set("email", document.getElementById("email").value.trim());
     formData.set("username", document.getElementById("username").value.trim());
-    formData.set("passwd", document.getElementById("passwd").value.trim());
+    formData.set("passwd", document.getElementById("passwd").value);
 
     var ajax = new XMLHttpRequest();
 
@@ -108,7 +110,7 @@ export default function Register() {
 
         try {
           var response = JSON.parse(ajax.responseText);
-          if (response.msg == "success") window.location.replace(`/`);
+          if (response.msg == "success") router.replace(`/auth/login#verify`);
           if (response.msg == "exists") {
             inlineAlert(
               response.reason[0],

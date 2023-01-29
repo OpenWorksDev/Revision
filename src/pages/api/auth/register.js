@@ -1,8 +1,12 @@
 let { hash, compare } = require("../../../components/authentication");
 import { serialize } from "cookie";
-import { userFlake, setFlake } from "../../../components/snowflake";
+import { userFlake } from "../../../components/snowflake";
 const Joi = require("joi");
 let db = require("../../../../lib/db");
+/**
+ * @todo Implement rate limiting
+ * @body https://github.com/vercel/next.js/tree/canary/examples/api-routes-rate-limit
+ **/
 
 class ValidationError extends Error {
   constructor(msg) {
@@ -44,35 +48,49 @@ export default async function registerAPIRoute(req, res) {
         "credSchema did not validate successfully: " + credObj.error
       );
     try {
-      let exists = await db.pool.query(
-        "SELECT * FROM users WHERE username = ? OR email = ?",
+      let existing_user = await db.pool.query(
+        "SELECT email, username FROM users WHERE username = ? OR email = ?",
         [userObj.value.username, userObj.value.email]
       );
-      if (exists.length > 0) {
-        console.log(exists);
+      console.log(existing_user);
+
+      //if theres an existing user, let user know an email and/or username is already in use
+      if (existing_user.length > 0) {
         var items = [];
         var checkItems = (data) => {
-          if (data.email == userObj.value.email) {
+          if (data.email.toLowerCase() == userObj.value.email.toLowerCase()) {
             items.push("email");
           }
-          if (data.username == userObj.value.username) {
+          if (
+            data.username.toLowerCase() == userObj.value.username.toLowerCase()
+          ) {
             items.push("username");
           }
         };
 
-        checkItems(exists[0]);
-        if (exists[1] !== undefined) checkItems(exists[1]);
+        checkItems(existing_user[0]);
+        if (existing_user[1] !== undefined) checkItems(existing_user[1]);
         return res.status(200).send({ msg: "exists", reason: items });
       }
-      if (exists.length === 0) {
+
+      //if there is no existing user, create a new one and redirect to login page
+      if (existing_user.length === 0) {
         db.pool.query(
           "INSERT INTO users (id, email, username) VALUES (?, ?, ?)",
-          [userObj.value.id, userObj.value.email, userObj.value.username]
+          [
+            userObj.value.id,
+            userObj.value.email.toLowerCase(),
+            userObj.value.username,
+          ]
         );
         db.pool.query("INSERT INTO credentials (id, password) VALUES (?, ?)", [
           userObj.value.id,
           credObj.value.password,
         ]);
+        /**
+         * @todo Send user verification email.
+         * @body - [ ] Create a good looking verification email using https://react.email/ - [ ] create an api path for verification which takes in a jwt on registration.
+         **/
         res.status(200).send({ msg: "success" });
       }
     } catch (err) {
@@ -139,10 +157,11 @@ export default async function registerAPIRoute(req, res) {
     // });
   } catch (err) {
     console.log(err);
-    if (err instanceof ValidationError) {
-      res.status(400).send();
-    } else {
-      res.status(409).send();
-    }
+    res.status(400).send();
+    // if (err instanceof ValidationError) {
+    //   res.status(400).send();
+    // } else {
+    //   res.status(409).send();
+    // }
   }
 }
