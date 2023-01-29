@@ -1,7 +1,11 @@
+import type { NextApiRequest, NextApiResponse } from "next";
 import { compare } from "../../../components/api/auth/hashing";
-let db = require("../../../../lib/db");
+import db from "../../../../lib/db";
 
-export default async function LoginAPIRoute(req, res) {
+export default async function LoginAPIRoute(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   let data = JSON.parse(req.body);
 
   let id_query = await db.pool.query(
