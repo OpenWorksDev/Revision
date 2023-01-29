@@ -1,12 +1,8 @@
-let { hash, compare } = require("../../../components/authentication");
+let { hash, compare } = require("../../../components/api/auth/hashing");
 import { serialize } from "cookie";
 import { userFlake } from "../../../components/snowflake";
 const Joi = require("joi");
 let db = require("../../../../lib/db");
-/**
- * @todo Implement rate limiting
- * @body https://github.com/vercel/next.js/tree/canary/examples/api-routes-rate-limit
- **/
 
 class ValidationError extends Error {
   constructor(msg) {
@@ -16,6 +12,7 @@ class ValidationError extends Error {
 }
 export default async function registerAPIRoute(req, res) {
   let data = JSON.parse(req.body);
+
   const userSchema = Joi.object({
     id: Joi.string().alphanum().required(),
     username: Joi.string().max(30).required(),
@@ -25,6 +22,7 @@ export default async function registerAPIRoute(req, res) {
   const credSchema = Joi.object({
     password: Joi.string().required(),
   });
+
   let user = {
     id: userFlake.generate().toString(),
     email: data.email,
@@ -156,12 +154,10 @@ export default async function registerAPIRoute(req, res) {
     //     });
     // });
   } catch (err) {
-    console.log(err);
-    res.status(400).send();
-    // if (err instanceof ValidationError) {
-    //   res.status(400).send();
-    // } else {
-    //   res.status(409).send();
-    // }
+    if (err instanceof ValidationError) {
+      res.status(400).send();
+    } else {
+      res.status(409).send();
+    }
   }
 }

@@ -3,7 +3,7 @@ import {
   passwd_check,
   email_check,
   uname_check,
-} from "../../components/validators";
+} from "../../components/api/auth/validators";
 import Head from "next/head";
 import { useEffect } from "react";
 import Link from "next/link";

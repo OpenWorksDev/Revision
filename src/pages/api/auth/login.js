@@ -1,4 +1,4 @@
-import { compare } from "../../../components/authentication";
+import { compare } from "../../../components/api/auth/hashing";
 let db = require("../../../../lib/db");
 
 export default async function LoginAPIRoute(req, res) {
