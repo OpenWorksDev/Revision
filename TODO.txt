@@ -1,5 +1,4 @@
 ----------- today -----------
-Transfer auth from rethinkdb to mariadb
 
 Add better validation on register
 -----------------------------
@@ -23,3 +22,4 @@ to help maintain database size and bot attacks
 Build new better 404 page
 
 Come up with a very pog name for this project
+

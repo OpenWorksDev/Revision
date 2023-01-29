@@ -1,37 +1,26 @@
-import { hash, compare } from "../../../components/authentication";
-let { credentials, rdb } = require("../../../../lib/db");
+import { compare } from "../../../components/authentication";
+let db = require("../../../../lib/db");
 
 export default async function LoginAPIRoute(req, res) {
-  const Joi = require("joi");
   let data = JSON.parse(req.body);
 
-  rdb.connect(credentials, (err, conn) => {
-    rdb.table("credentials")
-      .filter((c) => {
-        return c("email").eq(data.email);
-      })
-      .run(conn, async (err, c) => {
-        async function manageNext(err, result) {
-          console.log(data);
-          if (err) {
-            if (
-              err.name === "ReqlDriverError" &&
-              err.message === "No more rows in the cursor."
-            ) {
-              //TODO: return error if user doesn't exist
-              res.status(200).send({ msg: "failure", reason: "email" });
-            } else throw err;
-          }
-          // Checks if the given password matches the password hash of the user (REDO MY DOCUMENTATION PLEASE)
-          let passwordValid = compare(data.password, result.password);
+  let id_query = await db.pool.query(
+    "SELECT id FROM users WHERE username = ? or email = ?",
+    [data.email, data.email]
+  );
+  if (id_query.length === 0)
+    return (
+      res.status(200).send({ msg: "failure", reason: "noUser" }),
+      console.log("noUser")
+    );
+  console.log(id_query[0].id);
+  let pass_query = await db.pool.query(
+    "SELECT password FROM credentials WHERE id = ?",
+    [id_query[0].id]
+  );
+  const password_correct = await compare(data.password, pass_query[0].password);
+  if (!password_correct)
+    return res.status(200).send({ msg: "failure", reason: "password" });
 
-          if (passwordValid) {
-            return processUserValid(); //TODO: write access token cookie and redirect
-          } else {
-            res.status(200).send({ msg: "failure", reason: "password" });
-          }
-        }
-        c.next(manageNext);
-      });
-  });
+  res.status(200).send({ msg: "success" });
 }
