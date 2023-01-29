@@ -18,7 +18,9 @@ export default function MainLayout({ children }) {
         </div>
         <div className={styles.spacer} /> {/* Spacer */}
         <div className={styles["header-item"]}>
-          <Link href="/auth/login">Login</Link>
+          <Link href="/auth/login">
+            <button className={styles["btn"]}>LOGIN</button>
+          </Link>
         </div>
       </div>
 

@@ -43,3 +43,24 @@
 .layout-footer div p {
 	text-align: center;
 }
+
+.btn {
+	background-image: linear-gradient(to right, #8400ff 0%, #6d00d4 51%, #8400ff 100%);
+	margin-right: 20px;
+	transition: 0.6s;
+	background-size: 200% auto;
+	color: white;
+	border-radius: 10px;
+	margin: 0px;
+	margin-top: 20px;
+	padding: 10px;
+	padding-inline: 14px;
+	background-color: var(--dark-second);
+	border: none;
+}
+
+.btn:hover {
+	background-position: right center;
+	background-size: 400% auto;
+	animation: rotate-gradient 1s
+}
