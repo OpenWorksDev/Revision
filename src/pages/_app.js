@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import NProgress from "nprogress";
+import NProgress from "../../lib/nprogress.js";
 import "../styles/nprogress.css";
 
 export default function App({ Component, pageProps }) {
